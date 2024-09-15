@@ -2,17 +2,17 @@
 {% load static %}
 
 {% block title %}
-  Your shopping cart
+  Ваша корзина
 {% endblock %}
 
 {% block content %}
-  <h1>Your shopping cart</h1>
+  <h1>Ваша корзина</h1>
   <table class="cart">
     <thead>
       <tr>
         <th>Image</th>
         <th>Product</th>
-        <th>Quantity</th>
+        <th>Количество</th>
         <th>Remove</th>
         <th>Unit price</th>
         <th>Price</th>
@@ -43,19 +43,20 @@
                 {% csrf_token %}
               </form>
             </td>
-            <td class="num">${{ item.price }}</td>
-            <td class="num">${{ item.total_price }}</td>
+            <td class="num">{{ item.price }} ₽</td>
+            <td class="num">{{ item.total_price }} ₽</td>
           </tr>
         {% endwith %}
       {% endfor %}
       <tr class="total">
         <td>Total</td>
         <td colspan="4"></td>
-        <td class="num">${{ cart.get_total_price }}</td>
+        <td class="num">{{ cart.get_total_price }} ₽</td>
       </tr>
     </tbody>
   </table>
   <p class="text-right">
     <a href="{% url 'shop:product_list' %}" class="button light">Continue shopping</a>
+    <a href="{% url 'orders:order_create' %}" class="button">Checkout</a>
   </p>
 {% endblock %}
