@@ -1,5 +1,7 @@
-from django.shortcuts import render
-from .models import OrderItem
+# from django.urls import reverse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.admin.views.decorators import staff_member_required
+from .models import OrderItem, Order
 from .forms import OrderCreateForm
 # from .tasks import order_created
 from cart.cart import Cart
@@ -30,3 +32,9 @@ def order_create(request):
     return render(request,
                   'orders/order/create.html',
                   {'cart': cart, 'form': form})
+
+# Декоратор проверяет, что значения полей is_active и is_staff запрашивающего страницу юзера установлены True
+@staff_member_required
+def admin_order_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    return render(request, 'admin/orders/order/detail.html', {'order': order})
