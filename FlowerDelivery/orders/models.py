@@ -1,6 +1,7 @@
 from django.db import models
 from shop.models import Product
 
+
 class Order(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -23,6 +24,7 @@ class Order(models.Model):
 
     def get_total_cost(self):
         return sum(item.get_cost() for item in self.items.all())
+
 
 # Объект для хранения товара, количества и суммы, уплаченной за каждый товар
 class OrderItem(models.Model):

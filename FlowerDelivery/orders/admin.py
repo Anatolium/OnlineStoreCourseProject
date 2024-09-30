@@ -33,7 +33,7 @@ def export_to_csv(modeladmin, request, queryset):
     return response
 
 
-export_to_csv.short_description = 'Export to CSV'
+export_to_csv.short_description = 'Сохранить заказ в CSV'
 
 
 def order_detail(obj):
