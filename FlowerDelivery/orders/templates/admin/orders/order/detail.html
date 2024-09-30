@@ -52,16 +52,6 @@
       <th>Status</th>
       <td>{% if order.paid %}Paid{% else %}Pending payment{% endif %}</td>
     </tr>
-    <tr>
-      <th>Stripe payment</th>
-      <td>
-        {% if order.stripe_id %}
-          <a href="{{ order.get_stripe_url }}" target="_blank">
-            {{ order.stripe_id }}
-          </a>
-        {% endif %}
-      </td>
-    </tr>
   </table>
 </div>
 <div class="module">

@@ -41,12 +41,61 @@ def order_detail(obj):
     return mark_safe(f'<a href="{url}">View</a>')
 
 
+def make_status_new(modeladmin, request, queryset):
+    queryset.update(status='new')
+
+
+make_status_new.short_description = "Отметить как 'Оформлен'"
+
+
+def make_status_accepted(modeladmin, request, queryset):
+    queryset.update(status='accepted')
+
+
+make_status_accepted.short_description = "Отметить как 'Принят к работе'"
+
+
+def make_status_processing(modeladmin, request, queryset):
+    queryset.update(status='processing')
+
+
+make_status_processing.short_description = "Отметить как 'Находится в работе'"
+
+
+def make_status_shipped(modeladmin, request, queryset):
+    queryset.update(status='shipped')
+
+
+make_status_shipped.short_description = "Отметить как 'В доставке'"
+
+
+def make_status_completed(modeladmin, request, queryset):
+    queryset.update(status='completed')
+
+
+make_status_completed.short_description = "Отметить как 'Выполнен'"
+
+
+def make_status_cancelled(modeladmin, request, queryset):
+    queryset.update(status='cancelled')
+
+
+make_status_cancelled.short_description = "Отметить как 'Отменён'"
+
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
+    # list_display = ['id', 'first_name', 'last_name', 'email',
+    #                 'address', 'postal_code', 'city', 'paid',
+    #                 'created', 'updated']
     list_display = ['id', 'first_name', 'last_name', 'email',
-                    'address', 'postal_code', 'city', 'paid',
-                    'created', 'updated', order_detail]
+                    'address', 'city', 'paid',
+                    'created', 'status', order_detail]
 
-    list_filter = ['paid', 'created', 'updated']
+    # list_filter = ['paid', 'created', 'updated']
+    list_filter = ['paid', 'created', 'status']
+
     inlines = [OrderItemInline]
-    actions = [export_to_csv]
+    # actions = [export_to_csv]
+    actions = [export_to_csv, make_status_new, make_status_processing, make_status_accepted,
+               make_status_shipped, make_status_completed, make_status_cancelled]
