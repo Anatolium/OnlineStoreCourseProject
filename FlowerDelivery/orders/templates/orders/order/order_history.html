@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>История заказов</h1>
+{% if orders %}
+    {% for order in orders %}
+        <div class="order">
+            <h2>Заказ #{{ order.id }}</h2>
+            <p>Дата: {{ order.created }}</p>
+            <p>Статус: {{ order.get_status_display }}</p>
+            <p>Сумма: {{ order.paid }} руб.</p>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>У вас пока нет заказов.</p>
+{% endif %}
+{% endblock %}

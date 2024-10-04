@@ -37,6 +37,24 @@ class Order(models.Model):
         return sum(item.get_cost() for item in self.items.all())
 
 
+    def reorder(self):
+        new_order = Order.objects.create(
+            user=self.user,
+            status='new',
+            # total_price=self.total_price,
+            address=self.address
+        )
+        for item in self.orderitem_set.all():
+            OrderItem.objects.create(
+                order=new_order,
+                product=item.product,
+                quantity=item.quantity,
+                price=item.price
+            )
+        return new_order
+
+
+
 # Объект для хранения товара, количества и суммы, уплаченной за каждый товар
 class OrderItem(models.Model):
     order = models.ForeignKey(Order,

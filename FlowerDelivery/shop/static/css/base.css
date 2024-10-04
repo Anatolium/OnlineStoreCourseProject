@@ -182,6 +182,25 @@ ul.errorlist {
     width: 96%;
     margin-right:-220px;
     overflow:hidden;
+}+
+#main-menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#main-menu ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+#main-menu ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+#main-menu ul li a:hover {
+    color: #007bff;
 }
 
 .product-list .item {

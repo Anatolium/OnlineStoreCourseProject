@@ -1,6 +1,6 @@
 {% load static %}
 <! DOCTYPE html>
-<html>
+<html lang="ru">
   <head>
     <meta charset="utf-8" />
     <title>{% block title %}Вальс цветов{% endblock %}</title>
@@ -9,6 +9,13 @@
   <body>
     <div id="header">
       <a href="/" class="logo">Вальс цветов</a>
+        <nav id="main-menu">
+            <ul>
+                <li><a href="{% url 'shop:product_list' %}">Каталог</a></li>
+                <li><a href="{% url 'orders:order_history' %}">История заказов</a></li>
+                <li><a href="{% url 'login' %}">Вход</a></li>
+            </ul>
+        </nav>
     </div>
     <div id="subheader">
       <div class="cart">
