@@ -7,7 +7,7 @@
 </head>
 <body>
   <div id="header">
-    <span class="logo">Вальс цветов</span>
+    <a href="/" class="logo">Вальс цветов</a>
     {% if request.user.is_authenticated %}
       <ul class="menu">
         <li>
@@ -15,9 +15,6 @@
         </li>
         <li>
           <a href="#">Images</a>
-        </li>
-        <li>
-          <a href="#">People</a>
         </li>
       </ul>
     {% endif %}

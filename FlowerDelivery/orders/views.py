@@ -65,6 +65,12 @@ def order_history(request):
 
 
 @login_required
+def order_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    return render(request, 'orders/order/order_detail.html', {'order': order})
+
+
+@login_required
 def reorder(request, order_id):
     try:
         old_order = Order.objects.get(id=order_id, email=request.user.email)

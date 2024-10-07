@@ -31,11 +31,10 @@ class Order(models.Model):
         ]
 
     def __str__(self):
-        return f'Order {self.id}'
+        return f"Заказ {self.id} от {self.first_name}"
 
     def get_total_cost(self):
         return sum(item.get_cost() for item in self.items.all())
-
 
     def reorder(self):
         new_order = Order.objects.create(
@@ -54,7 +53,6 @@ class Order(models.Model):
         return new_order
 
 
-
 # Объект для хранения товара, количества и суммы, уплаченной за каждый товар
 class OrderItem(models.Model):
     order = models.ForeignKey(Order,
@@ -68,7 +66,7 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
-        return str(self.id)
+        return f"{self.quantity} x {self.product.name} в заказе {self.order.id}"
 
     def get_cost(self):
         return self.price * self.quantity
