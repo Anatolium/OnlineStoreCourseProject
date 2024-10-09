@@ -54,13 +54,12 @@ def order_history(request):
     all_orders = Order.objects.all().order_by('-created')
 
     # Выводим отладочную информацию
-    print(f"Всего заказов: {all_orders.count()}")
-    print(f"Email пользователя: {request.user.email}")
+    # print(f"Всего заказов: {all_orders.count()}")
+    # print(f"Email пользователя: {request.user.email}")
 
     # Фильтруем заказы по email пользователя
     user_orders = all_orders.filter(email=request.user.email)
-    print(f"Заказов пользователя: {user_orders.count()}")
-
+    # print(f"Заказов пользователя: {user_orders.count()}")
     return render(request, 'orders/order/order_history.html', {'orders': user_orders})
 
 
@@ -72,9 +71,12 @@ def order_detail(request, order_id):
 
 @login_required
 def reorder(request, order_id):
-    try:
-        old_order = Order.objects.get(id=order_id, email=request.user.email)
-        new_order = old_order.reorder()
-        return redirect('order_detail', order_id=new_order.id)
-    except Order.DoesNotExist:
-        return redirect('order_history')
+    old_order = get_object_or_404(Order, id=order_id)
+    cart = Cart(request)
+
+    # Добавляем товары из старого заказа в корзину
+    for item in old_order.items.all():
+        cart.add(product=item.product, quantity=item.quantity)
+
+    # Перенаправляем пользователя на страницу корзины
+    return redirect('cart:cart_detail')

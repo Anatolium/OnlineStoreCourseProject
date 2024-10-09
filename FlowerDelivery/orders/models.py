@@ -4,7 +4,7 @@ from shop.models import Product
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ('new', 'Оформлен'),
+        ('new', 'Сформирован'),
         ('accepted', 'Принят к работе'),
         ('processing', 'Находится в работе'),
         ('shipped', 'В доставке'),
@@ -16,7 +16,6 @@ class Order(models.Model):
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
     address = models.CharField(max_length=250)
-    # postal_code = models.CharField(max_length=20)
     city = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
