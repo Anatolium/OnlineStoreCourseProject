@@ -4,7 +4,7 @@ from shop.models import Product
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ('new', 'Сформирован'),
+        ('new', 'Новый'),
         ('accepted', 'Принят к работе'),
         ('processing', 'Находится в работе'),
         ('shipped', 'В доставке'),

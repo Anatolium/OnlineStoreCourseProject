@@ -8,30 +8,59 @@ from cart.cart import Cart
 from django.contrib.auth.decorators import login_required
 
 
+# def order_create(request):
+#     cart = Cart(request)
+#     if request.method == 'POST':
+#         # Запрос POST
+#         form = OrderCreateForm(request.POST)
+#         if form.is_valid():
+#             order = form.save()
+#             for item in cart:
+#                 OrderItem.objects.create(order=order,
+#                                          product=item['product'],
+#                                          price=item['price'],
+#                                          quantity=item['quantity'])
+#             # Очищаем корзину
+#             cart.clear()
+#             # launch asynchronous task
+#             # order_created.delay(order.id)
+#             return render(request,
+#                           'orders/order/created.html',
+#                           {'order': order})
+#     else:
+#         # Запрос GET
+#         form = OrderCreateForm()
+#     return render(request,
+#                   'orders/order/create.html',
+#                   {'cart': cart, 'form': form})
+
+@login_required
 def order_create(request):
     cart = Cart(request)
     if request.method == 'POST':
-        # Запрос POST
         form = OrderCreateForm(request.POST)
         if form.is_valid():
-            order = form.save()
+            order = form.save(commit=False)
+            order.user = request.user
+            order.save()
             for item in cart:
                 OrderItem.objects.create(order=order,
                                          product=item['product'],
                                          price=item['price'],
                                          quantity=item['quantity'])
-            # Очищаем корзину
             cart.clear()
-            # launch asynchronous task
-            # order_created.delay(order.id)
-            return render(request,
-                          'orders/order/created.html',
+            return render(request, 'orders/order/created.html',
                           {'order': order})
     else:
-        # Запрос GET
-        form = OrderCreateForm()
-    return render(request,
-                  'orders/order/create.html',
+        # Предзаполняем форму данными пользователя
+        initial_data = {
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'email': request.user.email,
+            'address': request.user.profile.address,
+        }
+        form = OrderCreateForm(initial=initial_data)
+    return render(request, 'orders/order/create.html',
                   {'cart': cart, 'form': form})
 
 
